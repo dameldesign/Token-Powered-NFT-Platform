@@ -1,0 +1,6 @@
+dist/
+.env
+artifacts/
+cache/
+cache/
+node_modules/
