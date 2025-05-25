@@ -4,7 +4,8 @@ import { handleError } from '../lib/utils';
 
 // Import ABI from artifacts
 import CreatorTokenArtifact from '../artifacts/contracts/CreatorToken.sol/CreatorToken.json';
-import ArtNFTArtifact from '../artifacts/contracts/ArtNFT.sol/ArtNFT.json';
+// import ArtNFTArtifact from '../artifacts/contracts/ArtNFT.sol/ArtNFT.json';
+import ArtNFTArtifact from '../../contracts/ArtNFT.sol';
 
 // This will be populated by the deployment script
 let contractAddresses: { creatorToken: string; artNFT: string } = { 

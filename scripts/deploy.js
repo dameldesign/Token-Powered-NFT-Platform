@@ -1,7 +1,7 @@
 const hre = require("hardhat");
 
 async function main() {
-  console.log("Deploying contracts to Lisk Sepolia...");
+  console.log("Deploying contracts...");
 
   // Deploy CreatorToken first
   const CreatorToken = await hre.ethers.getContractFactory("CreatorToken");
@@ -9,7 +9,7 @@ async function main() {
   await creatorToken.waitForDeployment();
   
   const creatorTokenAddress = await creatorToken.getAddress();
-  console.log(`CreatorToken deployed to: ${creatorTokenAddress}`);
+  console.log("CreatorToken deployed to:", creatorTokenAddress);
 
   // Deploy ArtNFT with CreatorToken address
   const ArtNFT = await hre.ethers.getContractFactory("ArtNFT");
@@ -17,27 +17,20 @@ async function main() {
   await artNFT.waitForDeployment();
   
   const artNFTAddress = await artNFT.getAddress();
-  console.log(`ArtNFT deployed to: ${artNFTAddress}`);
-  
-  // Transfer ownership of CreatorToken to ArtNFT
-  const tx = await creatorToken.transferOwnership(artNFTAddress);
-  await tx.wait();
-  console.log(`Ownership of CreatorToken transferred to ArtNFT contract`);
+  console.log("ArtNFT deployed to:", artNFTAddress);
 
-  console.log("Deployment complete!");
-  
-  // Write the contract addresses to a file for the frontend
-  const fs = require("fs");
-  const contractAddresses = {
-    creatorToken: creatorTokenAddress,
-    artNFT: artNFTAddress
-  };
-  
-  fs.writeFileSync(
-    "./src/contracts/contractAddresses.json",
-    JSON.stringify(contractAddresses, null, 2)
-  );
-  console.log("Contract addresses saved to src/contracts/contractAddresses.json");
+  // Transfer ownership of CreatorToken to ArtNFT contract
+  console.log("Transferring CreatorToken ownership to ArtNFT...");
+  await creatorToken.transferOwnership(artNFTAddress);
+  console.log("Ownership transferred!");
+
+  console.log("\n=== Deployment Summary ===");
+  console.log("CreatorToken Address:", creatorTokenAddress);
+  console.log("ArtNFT Address:", artNFTAddress);
+  console.log("\n=== Environment Variables ===");
+  console.log("Add these to your .env file:");
+  console.log(`VITE_CREATOR_TOKEN_ADDRESS=${creatorTokenAddress}`);
+  console.log(`VITE_ART_NFT_ADDRESS=${artNFTAddress}`);
 }
 
 main()
